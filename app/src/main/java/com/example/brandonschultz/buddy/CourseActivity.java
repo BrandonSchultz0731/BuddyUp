@@ -16,6 +16,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.ArrayList;
 
 public class CourseActivity extends AppCompatActivity {
@@ -23,16 +26,24 @@ public class CourseActivity extends AppCompatActivity {
     MyCustomAdapter dataAdapter = null;
     ArrayList<Courses> selectedCourses;
 
+    private FirebaseUser currentUser;
+    private FirebaseAuth mAuth;
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.screen_layout);
 
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+
         //Generate list View from ArrayList
         displayListView();
 
         checkButtonClick();
+
+
 
     }
 
