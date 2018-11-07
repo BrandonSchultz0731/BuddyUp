@@ -18,16 +18,19 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
 public class CourseActivity extends AppCompatActivity {
 
     MyCustomAdapter dataAdapter = null;
-    ArrayList<Courses> selectedCourses;
+    ArrayList<String> selectedCourses;
 
     private FirebaseUser currentUser;
     private FirebaseAuth mAuth;
+    private DatabaseReference dbRef,userRef,courseRef;
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -37,6 +40,17 @@ public class CourseActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
+
+        dbRef = FirebaseDatabase.getInstance().getReference();
+        courseRef = FirebaseDatabase.getInstance().getReference().child("Courses"); //THIS ISN'T CREATING COURSES CHILD
+
+        if(currentUser == null){
+            userRef = dbRef.child("Users");
+        }
+        else{
+            userRef = dbRef.child("Users").child(currentUser.getUid());
+        }
+                //.child("Brandon");
 
         //Generate list View from ArrayList
         displayListView();
@@ -184,25 +198,34 @@ public class CourseActivity extends AppCompatActivity {
                 for(int i=0;i<courseList.size();i++)
                 {
                     Courses course = courseList.get(i);
+                    //get a reference to "Courses" table, add all the courses to "course" list
+                    //course.getName() currently holds the current course from checklist
+                    //courseRef.child(course.getName());
 
                     if(course.isSelected())
                     {
                         //Current course is selected, add it to group
                         responseText.append("\n" + course.getName());
-                        selectedCourses.add(course); //adds the selected course to an ArrayList
+                        selectedCourses.add(course.getName()); //adds the selected course to an ArrayList
                     }
                 }
+                CreateUserGroups(); //Create Groups Unique to the User
 
 
                 Toast.makeText(getApplicationContext(),
                         responseText, Toast.LENGTH_LONG).show();
                 SendUserToMainActivity();
             }
+
+
         });
     }
 
     private void SendUserToMainActivity() {
         Intent mainIntent = new Intent(CourseActivity.this,MainActivity.class);
         startActivity(mainIntent);
+    }
+    private void CreateUserGroups() {
+        userRef.setValue(selectedCourses);
     }
 }
