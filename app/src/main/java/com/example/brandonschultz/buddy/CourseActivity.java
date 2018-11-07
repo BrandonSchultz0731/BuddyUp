@@ -26,7 +26,7 @@ import java.util.ArrayList;
 public class CourseActivity extends AppCompatActivity {
 
     MyCustomAdapter dataAdapter = null;
-    ArrayList<String> selectedCourses;
+    static ArrayList<String> selectedCourses;
 
     private FirebaseUser currentUser;
     private FirebaseAuth mAuth;
@@ -42,7 +42,8 @@ public class CourseActivity extends AppCompatActivity {
         currentUser = mAuth.getCurrentUser();
 
         dbRef = FirebaseDatabase.getInstance().getReference();
-        courseRef = FirebaseDatabase.getInstance().getReference().child("Courses"); //THIS ISN'T CREATING COURSES CHILD
+        courseRef = dbRef.child("Courses");
+        courseRef.setValue("All Courses"); //NEED TO SETVALUE TO SHOW CHILD ON DATABASE
 
         if(currentUser == null){
             userRef = dbRef.child("Users");
@@ -66,29 +67,41 @@ public class CourseActivity extends AppCompatActivity {
 
         //Array list of countries
         ArrayList<Courses> courseList = new ArrayList<Courses>();
+        ArrayList<String> nameOfCourses = new ArrayList<>();
 
         Courses course = new Courses("...","Calculus 1",false);
         courseList.add(course);
+        nameOfCourses.add(course.getName());
         course = new Courses("...","Calculus 2",false);
         courseList.add(course);
+        nameOfCourses.add(course.getName());
         course = new Courses("...","Calculus 3",false);
         courseList.add(course);
+        nameOfCourses.add(course.getName());
         course = new Courses("...","Physics 1",false);
         courseList.add(course);
+        nameOfCourses.add(course.getName());
         course = new Courses("...","Physics 2",false);
         courseList.add(course);
+        nameOfCourses.add(course.getName());
         course = new Courses("...","Eng. Entrepreneurship",false);
         courseList.add(course);
+        nameOfCourses.add(course.getName());
         course = new Courses("...","Soft. Fund.",false);
         courseList.add(course);
+        nameOfCourses.add(course.getName());
         course = new Courses("...","Object Oriented Prog",false);
         courseList.add(course);
+        nameOfCourses.add(course.getName());
 
         //create an ArrayAdaptar from the String Array
         dataAdapter = new MyCustomAdapter(this,R.layout.state_info, courseList);
         ListView listView = (ListView) findViewById(R.id.listView1);
         // Assign adapter to ListView
         listView.setAdapter(dataAdapter);
+
+        courseRef = dbRef.child("Courses");
+        courseRef.setValue(nameOfCourses);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
@@ -200,7 +213,10 @@ public class CourseActivity extends AppCompatActivity {
                     Courses course = courseList.get(i);
                     //get a reference to "Courses" table, add all the courses to "course" list
                     //course.getName() currently holds the current course from checklist
-                    //courseRef.child(course.getName());
+
+//                    courseRef = dbRef.child("Courses").child(course.getName());
+//                    courseRef.setValue("TEST");
+                    //HERES THE PROBLEM
 
                     if(course.isSelected())
                     {

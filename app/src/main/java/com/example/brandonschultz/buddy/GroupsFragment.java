@@ -37,6 +37,7 @@ public class GroupsFragment extends Fragment {
     private FirebaseAuth mAuth;
 
     private DatabaseReference GroupRef;
+    private DatabaseReference UserCourseRef;
 
     public GroupsFragment() {
         // Required empty public constructor
@@ -54,12 +55,16 @@ public class GroupsFragment extends Fragment {
         currentUser = mAuth.getCurrentUser();
 
 
-        if(currentUser == null){
-            GroupRef = FirebaseDatabase.getInstance().getReference().child("Users");
-        }
-        else{
-            GroupRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser.getUid());
-        }
+//        if(currentUser == null){
+//            GroupRef = FirebaseDatabase.getInstance().getReference().child("Users");
+//        }
+//        else{
+//            GroupRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser.getUid());
+//
+//        }
+        GroupRef = FirebaseDatabase.getInstance().getReference().child("Courses");
+        UserCourseRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser.getUid());
+
 
         //.child("Brandon");
 
@@ -85,7 +90,19 @@ public class GroupsFragment extends Fragment {
 
                 Set<String> set = new HashSet<>();
                 Iterator iterator = dataSnapshot.getChildren().iterator();
+                //ArrayList<String> selectedCourses = new ArrayList<>();
 
+                System.out.println("YOYOY IYIOYIYOY THE SIZE IS: " + "\n");
+                //CourseActivity.selectedCourses.size() IS GIVING AN ERROR
+
+//                while(iterator.hasNext()){
+//                    for(int i = 0; i < CourseActivity.selectedCourses.size(); i++){
+//                        if((((DataSnapshot)iterator.next()).getValue().toString()).equals(CourseActivity.selectedCourses.get(i))){
+//                            set.add(((DataSnapshot)iterator.next()).getValue().toString());
+//                        }
+//                    }
+//
+//                }
                 while(iterator.hasNext()){
                     set.add(((DataSnapshot)iterator.next()).getValue().toString());
                 }
