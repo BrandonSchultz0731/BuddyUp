@@ -47,6 +47,7 @@ public class CourseActivity extends AppCompatActivity {
 
         if(currentUser == null){
             userRef = dbRef.child("Users");
+            System.out.println("BLAHSHS HDUSHIDB YOYOYOO HOPE THIS ISNT CALLED");
         }
         else{
             userRef = dbRef.child("Users").child(currentUser.getUid());
@@ -102,6 +103,9 @@ public class CourseActivity extends AppCompatActivity {
 
         courseRef = dbRef.child("Courses");
         courseRef.setValue(nameOfCourses);
+//        for(int i = 0; i < nameOfCourses.size(); i++){
+//            courseRef.child(nameOfCourses.get(i));
+//        }
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
@@ -242,6 +246,7 @@ public class CourseActivity extends AppCompatActivity {
         startActivity(mainIntent);
     }
     private void CreateUserGroups() {
+        //DO NOT WANT TO SET VALUE
         userRef.setValue(selectedCourses);
     }
 }

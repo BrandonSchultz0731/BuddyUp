@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
 
         myTabLayout = (TabLayout) findViewById(R.id.main_tabs);
         myTabLayout.setupWithViewPager(myViewPager);
+
+        //SendUserToLoginActivity();
     }
 
 
@@ -75,7 +77,12 @@ public class MainActivity extends AppCompatActivity {
             SendUserToLoginActivity();
         }
         if(item.getItemId() == R.id.main_settings_option){
+            SendUserToSettingsActivity();
         }
         return true;
+    }
+    private void SendUserToSettingsActivity() {
+        Intent settingsIntent = new Intent(MainActivity.this,SettingsActivity.class);
+        startActivity(settingsIntent);
     }
 }
