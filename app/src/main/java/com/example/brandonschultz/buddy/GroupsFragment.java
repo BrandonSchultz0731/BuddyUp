@@ -149,9 +149,18 @@ public class GroupsFragment extends Fragment {
 //                    }
 //
 //                }
-                while(iterator.hasNext()){
-                    set.add(((DataSnapshot)iterator.next()).getValue().toString());
+//
+
+                while (iterator.hasNext()){
+                    String course = ((DataSnapshot)iterator.next()).getKey().toString();
+                    if(userCourses.contains(course)){
+                        set.add(course);
+                    }
                 }
+
+//                while(iterator.hasNext()){
+//                    set.add(((DataSnapshot)iterator.next()).getKey().toString());
+//                }
                 list_of_groups.clear();
                 list_of_groups.addAll(set);
                 arrayAdapter.notifyDataSetChanged();

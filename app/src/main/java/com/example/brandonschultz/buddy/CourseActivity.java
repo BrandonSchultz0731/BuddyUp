@@ -42,8 +42,8 @@ public class CourseActivity extends AppCompatActivity {
         currentUser = mAuth.getCurrentUser();
 
         dbRef = FirebaseDatabase.getInstance().getReference();
-        courseRef = dbRef.child("Courses");
-        courseRef.setValue("All Courses"); //NEED TO SETVALUE TO SHOW CHILD ON DATABASE
+        //courseRef = dbRef.child("Courses");
+        //courseRef.setValue("All Courses"); //NEED TO SETVALUE TO SHOW CHILD ON DATABASE
 
         if(currentUser == null){
             userRef = dbRef.child("Users");
@@ -101,8 +101,8 @@ public class CourseActivity extends AppCompatActivity {
         // Assign adapter to ListView
         listView.setAdapter(dataAdapter);
 
-        courseRef = dbRef.child("Courses");
-        courseRef.setValue(nameOfCourses);
+//        courseRef = dbRef.child("Courses");
+//        courseRef.setValue(nameOfCourses);
 //        for(int i = 0; i < nameOfCourses.size(); i++){
 //            courseRef.child(nameOfCourses.get(i));
 //        }
